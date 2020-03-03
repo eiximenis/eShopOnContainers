@@ -20,6 +20,6 @@ jobs:
           os: windows-2019
     steps:
     - uses: actions/checkout@v2
-    - run: docker build . --file Dockerfile --tag eshop/webspa:${{ arch }}-${{ github.sha }}
+    - run: docker build . --file Dockerfile --tag eshop/webspa:${{ matrix.arch }}-${{ github.sha }}
       working-directory: src/Web/WebMVC/
       name: "Build docker image"
