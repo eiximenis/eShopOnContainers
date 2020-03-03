@@ -15,7 +15,7 @@ jobs:
       max-parallel: 2
       matrix:
         cfg:
-        - {os: ububtu-18.04, arch: linux}
+        - {os: ubuntu-18.04, arch: linux}
         - {os: windows-2019, arch: windows}
 
     steps:
