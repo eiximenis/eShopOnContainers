@@ -1,0 +1,25 @@
+name: "Web MVC - CI"
+on:
+  push:
+    paths: 
+    - src/Web/WebMVC/**
+    - .github/workflows/webmvc.yml
+    - deploy/k8s/helm/webmvc/**
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: true
+      max-parallel: 2
+      matrix:
+        os: [ubuntu-18.04, windows-2019]
+        include:
+        - arch: linux
+          os: ububtu-18.04
+        - arch: windows
+          os: windows-2019
+    steps:
+    - uses: actions/checkout@v2
+    - run: docker build . --file Dockerfile --tag eshop/webspa:${{ arch }}-${{ github.sha }}
+      working-directory: src/Web/WebMVC/
+      name: "Build docker image"
