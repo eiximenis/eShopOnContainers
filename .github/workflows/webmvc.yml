@@ -20,6 +20,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - run: docker build . --file Dockerfile --tag eshop/webspa:${{ matrix.cfg.arch }}-${{ github.sha }}
-      working-directory: src/Web/WebMVC/
+    - run: docker build . --file Web/WebMVC/Dockerfile --tag eshop/webspa:${{ matrix.cfg.arch }}-${{ github.sha }}
+      working-directory: src
       name: "Build docker image"
