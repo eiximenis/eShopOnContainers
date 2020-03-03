@@ -1,13 +1,15 @@
 name: "Web MVC - CI"
+
 on:
   push:
     paths: 
     - src/Web/WebMVC/**
     - .github/workflows/webmvc.yml
     - deploy/k8s/helm/webmvc/**
+
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.cfg.os }}
     strategy:
       fail-fast: true
       max-parallel: 2
