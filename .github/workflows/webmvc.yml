@@ -12,14 +12,12 @@ jobs:
       fail-fast: true
       max-parallel: 2
       matrix:
-        os: [ubuntu-18.04, windows-2019]
-        include:
-        - arch: linux
-          os: ububtu-18.04
-        - arch: windows
-          os: windows-2019
+        cfg:
+        - {os: ububtu-18.04, arch: linux}
+        - {os: windows-2019, arch: windows}
+
     steps:
     - uses: actions/checkout@v2
-    - run: docker build . --file Dockerfile --tag eshop/webspa:${{ matrix.arch }}-${{ github.sha }}
+    - run: docker build . --file Dockerfile --tag eshop/webspa:${{ matrix.cfg.arch }}-${{ github.sha }}
       working-directory: src/Web/WebMVC/
       name: "Build docker image"
