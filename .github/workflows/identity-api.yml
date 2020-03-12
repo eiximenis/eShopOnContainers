@@ -1,0 +1,25 @@
+name: "identity API - CI"
+
+on:
+  push:
+    paths: 
+    - src/Services/Identity/Identity.API/**
+    - .github/workflows/identity-api.yml
+    - deploy/k8s/helm/identity-api/**
+
+jobs:
+  build:
+    runs-on: ${{ matrix.cfg.os }}
+    strategy:
+      fail-fast: true
+      max-parallel: 2
+      matrix:
+        cfg:
+        - {os: ubuntu-18.04, arch: linux}
+        - {os: windows-2019, arch: windows}
+
+    steps:
+    - uses: actions/checkout@v2
+    - run: docker build . --file Services/Identity/Identity.API/Dockerfile --tag eshop/identity.api:${{ matrix.cfg.arch }}-${{ github.sha }}
+      working-directory: src
+      name: "Build docker image"
