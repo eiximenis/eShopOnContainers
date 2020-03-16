@@ -1,0 +1,25 @@
+name: "Shopping Aggregator (Web) - CI"
+
+on:
+  push:
+    paths: 
+    - src/ApiGateways/Web.Bff.Shopping/aggregator/**
+    - .github/workflows/web-shopping-agg.yml
+    - deploy/k8s/helm/apigwws/**
+
+jobs:
+  build:
+    runs-on: ${{ matrix.cfg.os }}
+    strategy:
+      fail-fast: true
+      max-parallel: 2
+      matrix:
+        cfg:
+        - {os: ubuntu-18.04, arch: linux}
+        - {os: windows-2019, arch: windows}
+
+    steps:
+    - uses: actions/checkout@v2
+    - run: docker build . --file ApiGateways/Web.Bff.Shopping/aggregator/Dockerfile --tag eshop/webshoppingagg:${{ matrix.cfg.arch }}-${{ github.sha }}
+      working-directory: src
+      name: "Build docker image"
