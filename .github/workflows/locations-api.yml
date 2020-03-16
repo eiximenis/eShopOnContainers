@@ -20,6 +20,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - run: docker build . --file Services/Location/locations.API/Dockerfile --tag eshop/Locations.api:${{ matrix.cfg.arch }}-${{ github.sha }}
+    - run: docker build . --file Services/Location/locations.API/Dockerfile --tag eshop/locations.api:${{ matrix.cfg.arch }}-${{ github.sha }}
       working-directory: src
       name: "Build docker image"
