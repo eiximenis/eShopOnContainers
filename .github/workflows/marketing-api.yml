@@ -1,0 +1,25 @@
+name: "Marketing API - CI"
+
+on:
+  push:
+    paths: 
+    - src/Services/Marketing/Marketing.API/**
+    - .github/workflows/marketing-api.yml
+    - deploy/k8s/helm/marketing-api/**
+
+jobs:
+  build:
+    runs-on: ${{ matrix.cfg.os }}
+    strategy:
+      fail-fast: true
+      max-parallel: 2
+      matrix:
+        cfg:
+        - {os: ubuntu-18.04, arch: linux}
+        - {os: windows-2019, arch: windows}
+
+    steps:
+    - uses: actions/checkout@v2
+    - run: docker build . --file Services/Marketing/Marketing.API/Dockerfile --tag eshop/marketing.api:${{ matrix.cfg.arch }}-${{ github.sha }}
+      working-directory: src
+      name: "Build docker image"
