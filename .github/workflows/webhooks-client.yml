@@ -1,0 +1,25 @@
+name: "Web SPA - CI"
+
+on:
+  push:
+    paths: 
+    - src/Web/WebhookClient/**
+    - .github/workflows/webhooks-client.yml
+    - deploy/k8s/helm/webhooks-web/**
+
+jobs:
+  build:
+    runs-on: ${{ matrix.cfg.os }}
+    strategy:
+      fail-fast: true
+      max-parallel: 2
+      matrix:
+        cfg:
+        - {os: ubuntu-18.04, arch: linux}
+        - {os: windows-2019, arch: windows}
+
+    steps:
+    - uses: actions/checkout@v2
+    - run: docker build . --file Web/WebhookClient/Dockerfile --tag eshop/webhooks.client:${{ matrix.cfg.arch }}-${{ github.sha }}
+      working-directory: src
+      name: "Build docker image"

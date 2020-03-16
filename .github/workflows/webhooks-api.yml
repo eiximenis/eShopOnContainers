@@ -1,0 +1,25 @@
+name: "Webhooks API - CI"
+
+on:
+  push:
+    paths: 
+    - src/Services/Webhooks/Webhooks.API/**
+    - .github/workflows/webhooks-api.yml
+    - deploy/k8s/helm/webhooks-api/**
+
+jobs:
+  build:
+    runs-on: ${{ matrix.cfg.os }}
+    strategy:
+      fail-fast: true
+      max-parallel: 2
+      matrix:
+        cfg:
+        - {os: ubuntu-18.04, arch: linux}
+        - {os: windows-2019, arch: windows}
+
+    steps:
+    - uses: actions/checkout@v2
+    - run: docker build . --file Services/Webhooks/Webhooks.API/Dockerfile --tag eshop/webhooks.api:${{ matrix.cfg.arch }}-${{ github.sha }}
+      working-directory: src
+      name: "Build docker image"
