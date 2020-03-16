@@ -1,4 +1,4 @@
-name: "Web SPA - CI"
+name: "Webhooks Client - CI"
 
 on:
   push:
